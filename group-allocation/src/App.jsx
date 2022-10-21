@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css';
 
-import { Navbar } from './components/Navbar';
-import { Footer, Header, Employees, Teams } from './container/index';
+import { Navbar } from './components';
+import { Footer, Header, Employees, Teams, NotFound } from './container/index';
 
 function App() {
   
@@ -100,7 +100,7 @@ function App() {
     }, [employees] );
 
     useEffect(() => {
-      localStorage.setItem('employeeList', JSON.stringify(selectedTeam));
+      localStorage.setItem('teamList', JSON.stringify(selectedTeam));
     }, [selectedTeam] );
 
     const TeamSelection = (event) => {
@@ -118,16 +118,16 @@ function App() {
       setEmployees(transformedEmployees);
     }
 
-
+    
   return (
   
   <Router>
-    <Navbar />
-    <Header 
-    selectedTeam={selectedTeam}
-    TeamCount ={ employees.filter((employee) => 
-      employee.teamName === selectedTeam).length}
-    />
+      <Navbar />
+      <Header 
+      selectedTeam={selectedTeam}
+      TeamCount ={ employees.filter((employee) => 
+        employee.teamName === selectedTeam).length}
+      />
     <Routes>
       <Route path ='/'
           element={<Employees
@@ -138,10 +138,14 @@ function App() {
             />}>
       </Route>
       <Route path='/Teams'
-          elements= {<Teams/>
-          }
-          >
-
+          element= {<Teams
+          employees={employees}
+          selectedTeam={selectedTeam}
+          setTeam={setTeam}
+          />}>
+      </Route>
+      <Route path='*'
+          elements= {<NotFound />}>
       </Route>
     </Routes>
     <Footer />
