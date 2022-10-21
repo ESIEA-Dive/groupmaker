@@ -31,7 +31,6 @@ const Employees = ({TeamSelection, EmployeeClick, selectedTeam, employees}) => {
                     <div className='card-body'>
                         <h5 className='card-title'> Full Name : {employee.fullName} </h5>
                         <p className='card-text'> Designation : {employee.designation} </p>
-
                     </div>
 
                 </div>

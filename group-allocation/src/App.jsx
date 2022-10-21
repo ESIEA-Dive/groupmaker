@@ -1,7 +1,10 @@
 import React, { useState, useEffect} from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.css';
-import { Footer, Header, Employees } from './container/index';
+
+import { Navbar } from './components/Navbar';
+import { Footer, Header, Employees, Teams } from './container/index';
 
 function App() {
   
@@ -118,20 +121,31 @@ function App() {
 
   return (
   
-  <div>
+  <Router>
+    <Navbar />
     <Header 
     selectedTeam={selectedTeam}
     TeamCount ={ employees.filter((employee) => 
       employee.teamName === selectedTeam).length}
     />
-    <Employees
-    employees={employees}
-    selectedTeam={selectedTeam}
-    TeamSelection={TeamSelection}
-    EmployeeClick={EmployeeClick}
-    />
+    <Routes>
+      <Route path ='/'
+          element={<Employees
+            employees={employees}
+            selectedTeam={selectedTeam}
+            TeamSelection={TeamSelection}
+            EmployeeClick={EmployeeClick}
+            />}>
+      </Route>
+      <Route path='/Teams'
+          elements= {<Teams/>
+          }
+          >
+
+      </Route>
+    </Routes>
     <Footer />
-  </div>
+  </Router>
 
   )
 };
