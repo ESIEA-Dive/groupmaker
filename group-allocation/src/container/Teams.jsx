@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 const Teams = ({employees, selectedTeam, setTeam }) => {
 
-    const [group, setGroup] = useState(Team);
+    const [group, setGroup] = useState(Team());
 
-    const Team = () => {
+    function Team() {
         let teams = [];
 
         let teamAMembers = employees.filter((employee) => employee.teamName === 'TeamA');
@@ -22,16 +22,20 @@ const Teams = ({employees, selectedTeam, setTeam }) => {
         let teamDMembers = employees.filter((employee) => employee.teamName === 'TeamD');
         let teamD = {team:'TeamD', members:teamDMembers, collapsed: selectedTeam === 'TeamD' ? false : true};
         teams.push(teamD);
+
+        let noTeam = employees.filter((employee) => employee.teamName === '');
+        let teamNone = {team:'NoTeam', members:noTeam, collapsed: selectedTeam === '' ? false : true};
+        teams.push(teamNone);
         
-        return Team;
+        return teams;
     }
 
     const handleTeam = (event) => {
-        let newTeam = group.map((groupData) => groupData.team === event.currentTarget.id
+        let changedTeam = group.map((groupData) => groupData.team === event.currentTarget.id
         ? {...groupData, collapsed : !groupData.collapsed}
-        :groupData);
+        : groupData);
   
-        setGroup(newTeam);
+        setGroup(changedTeam);
         setTeam(event.currentTarget.id);
       };
   
@@ -39,21 +43,21 @@ const Teams = ({employees, selectedTeam, setTeam }) => {
     <main className='container'>
      { group.map((item)=> {
         return (
-            <div key={item.team} className='card mt-2' style={{cursor:'pointer'}}>
-                <h4 id={item.team} className='car-header text-secondary bg-white' onClick={handleTeam}>
+            <div key={item.team} className='card mt-2' style={{ cursor:'pointer' }}>
+                <h4 id={item.team} className='card-header text-secondary bg-white' onClick={handleTeam}>
                     Team Name : {item.team}
                 </h4>
 
-                <div id={'collapse_' + item.team} className={item.collapsed === true ?'collapsed' : ''}>
+                <div id={'collapse_' + item.team} className={item.collapsed === true ?'collapse' : ''}>
                     <hr/>
                     {
                         item.members.map((member) => {
                             return (
-                                <div className='mt-2'>
+                                <div key={member.id} className='mt-2'>
                                     <h5 className='card-title mt-2'>
                                         <span>Full Name: {member.fullName}</span>
                                     </h5>
-                                    <p>Designation : {member.Designation}</p>
+                                    <p>Designation : {member.designation}</p>
                                 </div>
 
                             );

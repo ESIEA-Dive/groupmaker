@@ -6,7 +6,7 @@ const Header = ({selectedTeam, TeamCount}) => {
       <div className='row justify-content-center mt-3 mb-4'>
         <div className='col-8'>
           <h1>Group Allocation</h1>
-          <h3>{selectedTeam} has {TeamCount} </h3>
+          <h3>{selectedTeam} has {TeamCount} { TeamCount === 1 ? 'member' : 'members' }</h3>
         </div>
       </div>
     </header>
